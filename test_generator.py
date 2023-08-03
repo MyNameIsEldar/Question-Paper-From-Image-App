@@ -15,8 +15,10 @@ def main(text):
     TASKS_NUMBER = 4
     ANSWERS_IN_TASK = 3
     TYPE = 'тест'
+    OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 
-    llm = ChatOpenAI(openai_api_key=config.openai_api_key, temperature=0.7, )
+    #openai_api_key=config.openai_api_key
+    llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0.7)
 
     template = """Ты полезный помошник-ассистент, который помогает пользователю составлять {type}. 
     Пользователь отправит тебе текст. Напиши на основе него {type}, состоящий из {num_of_q} заданий,
