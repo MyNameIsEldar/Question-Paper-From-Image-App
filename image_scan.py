@@ -1,6 +1,5 @@
 import pytesseract
 import cv2 as cv
-from io import BytesIO
 import numpy as np
 import os
 import page_dewrap
