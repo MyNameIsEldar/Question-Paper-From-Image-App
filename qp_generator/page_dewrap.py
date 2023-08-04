@@ -840,26 +840,12 @@ def remap_image(name, img, small, page_dims, params):
 
 def main(images):
 
-    # if len(sys.argv) < 2:
-    #     print ('usage:', sys.argv[0], 'IMAGE1 [IMAGE2 ...]')
-    #     sys.exit(0)
-
-    if DEBUG_LEVEL > 0 and DEBUG_OUTPUT != 'file':
-        cv2.namedWindow(WINDOW_NAME)
-
     outfiles = []
 
     for img in images: # sys.argv[1:]:
 
         small = resize_to_screen(img)
-        # basename = os.path.basename(imgfile)
-        name = 'page image' #os.path.splitext(basename)
-
-        # print ('loaded', basename, 'with size', imgsize(img),)
-        # print ('and resized to', imgsize(small))
-
-        if DEBUG_LEVEL >= 3:
-            debug_show(name, 0.0, 'original', small)
+        name = 'page image' 
 
         pagemask, page_outline = get_page_extents(small)
 
