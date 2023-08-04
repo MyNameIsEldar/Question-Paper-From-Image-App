@@ -11,18 +11,19 @@ from langchain.chains import LLMChain
 
 
 @st.cache_data
-def main(text):
-    TASKS_NUMBER = 4
-    ANSWERS_IN_TASK = 3
+def main(text, tasks, answers):
     TYPE = 'тест'
     OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 
     #openai_api_key=config.openai_api_key
     llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0.7)
 
-    template = """Ты полезный помошник-ассистент, который помогает пользователю составлять {type}. 
+    template = """
+    Ты полезный помошник-ассистент, который помогает пользователю составлять {type}. 
     Пользователь отправит тебе текст. Напиши на основе него {type}, состоящий из {num_of_q} заданий,
-    в каждом из которых количество ответов равно {num_of_a}"""
+    в каждом из которых количество ответов равно {num_of_a}. Начни вывод так: "Тест: ". В конце теста напиши ответы к каждому из вопросов.
+    В каждом вопросе должен быть ровно 1 правильный ответ.
+    """
 
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
     human_template = "{text}"
@@ -34,6 +35,6 @@ def main(text):
         prompt=chat_prompt
     )
 
-    result = chain.run({'text': text, 'num_of_q': TASKS_NUMBER, 'num_of_a': ANSWERS_IN_TASK, 'type': TYPE})
+    result = chain.run({'text': text, 'num_of_q': tasks, 'num_of_a': answers, 'type': TYPE})
 
     return result
