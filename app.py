@@ -11,6 +11,8 @@ import time
 
 st.title('📄 Question Paper Generator')
 st.caption('This app in pre-beta release. We are testing more features 😎')
+st.caption('👈 To generate set QP settings here.')
+st.caption('And choose input type 👇')
 
 result = 'Here will apear your question paper text'
 
