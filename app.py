@@ -6,8 +6,8 @@ import ptvsd
 import time
 
 # use when run localy
-ptvsd.enable_attach(address=('localhost', 5678))
-ptvsd.wait_for_attach()
+# ptvsd.enable_attach(address=('localhost', 5678))
+# ptvsd.wait_for_attach()
 
 st.title('📄 Question Paper Generator')
 st.caption('This app in pre-beta release. We are testing more features 😎')
