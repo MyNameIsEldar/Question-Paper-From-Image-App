@@ -12,7 +12,7 @@ def image_preprocessing(image):
     image = cv.imdecode(np.frombuffer(image, dtype=np.uint8), cv.IMREAD_COLOR)
 
     image = page_dewrap.main([image])
-    image = np.array(image) # [0]
+    image = np.array(image[-1]) # [0]
 
     return image
 
