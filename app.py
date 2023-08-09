@@ -10,6 +10,9 @@ import time
 # ptvsd.wait_for_attach()
 
 st.title('📄 Question Paper Generator')
+
+lang = st.selectbox("Language", ["English", "Russian"])
+
 st.caption('This app in pre-beta release. We are testing more features 😎')
 st.caption('👈 To generate set QP settings here.')
 st.caption('And choose input type 👇')

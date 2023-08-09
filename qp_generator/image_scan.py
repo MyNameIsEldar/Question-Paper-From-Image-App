@@ -12,7 +12,7 @@ def image_preprocessing(image):
     image = cv.imdecode(np.frombuffer(image, dtype=np.uint8), cv.IMREAD_COLOR)
 
     image = page_dewrap.main([image])
-    image = np.array(image[0])
+    image = np.array(image) # [0]
 
     return image
 
@@ -29,6 +29,7 @@ def main(image):
 
     pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" 
     
+    # for windows usage
     # tesseract_path = r'C:\Program Files\Tesseract-OCR'
     # os.environ['PATH'] += os.pathsep + tesseract_path
     # pytesseract.pytesseract.tesseract_cmd = tesseract_path + r'\tesseract.exe'
