@@ -1,7 +1,3 @@
 libgl1
 tesseract-ocr
-<<<<<<< HEAD
 tesseract-ocr-rus
-=======
-tesseract-ocr-rus
->>>>>>> b603b848879c57cec3512ed3768b3eb2cf21ba01
