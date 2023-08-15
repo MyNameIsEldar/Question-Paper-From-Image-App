@@ -118,7 +118,7 @@ with img_tab:
         
 with text_tab:
     st.header(languages[lang]['input_txt'])
-    text = st.text_area(languages[lang]['input_txt'], value='Paste your text here', label_visibility='collapsed')
+    text = st.text_area(languages[lang]['input_txt'], value=languages[lang]['paste_txt'], label_visibility='collapsed')
 
     if st.button(languages[lang]['make_qp'], type='primary', key='make button when text'):
 
