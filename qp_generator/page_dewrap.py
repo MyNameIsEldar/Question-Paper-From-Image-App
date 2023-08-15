@@ -20,8 +20,8 @@ import scipy.optimize
 # for some reason pylint complains about cv2 members being undefined :(
 # pylint: disable=E1101
 
-PAGE_MARGIN_X = 10       # reduced px to ignore near L/R edge
-PAGE_MARGIN_Y = 10       # reduced px to ignore near T/B edge
+PAGE_MARGIN_X = 5      # reduced px to ignore near L/R edge
+PAGE_MARGIN_Y = 5       # reduced px to ignore near T/B edge
 
 OUTPUT_ZOOM = 2.0        # how much to zoom output relative to *original* image
 OUTPUT_DPI = 600         # just affects stated DPI of PNG, not appearance

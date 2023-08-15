@@ -1,6 +1,7 @@
 import qp_generator.image_scan as image_scan
 import qp_generator.test_generator as test_generator
 import qp_generator.pdf_to_text as pdf_to_text
+from qp_generator.languages_data import languages
 import streamlit as st
 import ptvsd
 import time
@@ -9,43 +10,62 @@ import time
 # ptvsd.enable_attach(address=('localhost', 5678))
 # ptvsd.wait_for_attach()
 
-st.title('📄 Question Paper Generator')
 
-lang = st.selectbox("Language", ["English", "Russian"])
-
-st.caption('This app in pre-beta release. We are testing more features 😎')
-st.caption('👈 To generate set QP settings here.')
-st.caption('And choose input type 👇')
-
-result = 'Here will apear your question paper text'
+st.set_page_config(
+    page_title="Test Generator",
+    page_icon="📖",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://t.me/eldar_tagiev',
+        'Report a bug': "https://t.me/eldar_tagiev",
+        'About': """"# Генератор заданий\n
+        Это приложение разработано для того, чтобы помочь студентам и пребодавателям в учебном процессе!"""
+    }
+)
 
 # Generation settings section
 with st.sidebar: 
-    st.title('⚙️ Settings')
+    lang = st.selectbox('Language', ["🇷🇺", "🇬🇧"], label_visibility='collapsed')
     
-    st.subheader('QP Type:')
+    st.title(languages[lang]['settings'])
+    
+    st.subheader(languages[lang]['qp_type'])
 
     # 'True-False', 'Another type'
-    qp_type = st.selectbox('Type of input:',
-        ('Test', ),
+    qp_type = st.selectbox(languages[lang]['type_of_input'],
+        (languages[lang]['test'], ),
         label_visibility = 'collapsed'
     )
 
-    if qp_type == 'Test':
-        st.subheader('Number of tasks in test:')
-        tasks = st.slider('Number of tasks in test', 1, 10, 4, label_visibility='collapsed')
-        st.subheader('Number of answers in task:')
-        answers = st.slider('Number of answers in task', 2, 6, 3, label_visibility='collapsed')
+    if qp_type == languages[lang]['test']:
+        st.subheader(languages[lang]['n_o_t'])
+        tasks = st.slider(languages[lang]['n_o_t'], 1, 10, 4, label_visibility='collapsed')
+        st.subheader(languages[lang]['n_o_a'])
+        answers = st.slider(languages[lang]['n_o_a'], 2, 6, 3, label_visibility='collapsed')
+
+
+st.title(languages[lang]['title'])
+
+st.caption(languages[lang]['caption1'])
+st.caption(languages[lang]['caption2'])
+st.caption(languages[lang]['caption3'])
+
+result = languages[lang]['gen_result']
 
 
 # Input type section
 
-st.header('What input do you prefer?')  
-pdf_tab, img_tab, text_tab = st.tabs(['PDF', 'Image', 'Text']) 
+# st.header(languages[lang]['input_header'])  
+pdf_tab, img_tab, text_tab = st.tabs([
+    languages[lang]['pdf'],
+    languages[lang]['image'],
+    languages[lang]['text']
+    ]) 
 
 with pdf_tab:
-    st.header('Choose a file')
-    uploaded_file = st.file_uploader('Choose a file',
+    st.header(languages[lang]['choose_file'])
+    uploaded_file = st.file_uploader(languages[lang]['choose_file'],
                                      type=['pdf'],
                                      label_visibility='collapsed')
         
@@ -53,29 +73,29 @@ with pdf_tab:
         pages_count = pdf_to_text.pages_count(uploaded_file)
         
         if pages_count > 1:
-            st.header('Select pages')
+            st.header(languages[lang]['select_pages'])
             pages = st.slider(
-                'Select pages',
+                languages[lang]['select_pages'],
                     1, pages_count, (1, pages_count), 
                     label_visibility='collapsed')
             st.write(f'Pages: {pages[0]} - {pages[-1]}')
         else:
             pages = (0,)
 
-        if st.button('🖨️Make question paper', type='primary', key='make button when pdf'):
-            with st.spinner('Document preparation...'):
+        if st.button(languages[lang]['make_qp'], type='primary', key='make button when pdf'):
+            with st.spinner(languages[lang]['doc_prep']):
                 text = pdf_to_text.main(uploaded_file, pages)
                 time.sleep(1)
             
-            with st.spinner('Test editing...'):
+            with st.spinner(languages[lang]['test_edit']):
                     result = test_generator.main(text, tasks, answers)
                     time.sleep(1)
-            st.toast('Done!', icon="✅")
+            st.toast(languages[lang]['done'], icon="✅")
 
 with img_tab:
-    st.header('Choose a file')
-    st.caption('сonverting images to text can take a time!')
-    uploaded_files = st.file_uploader('Choose a file',
+    st.header(languages[lang]['choose_file'])
+    st.caption(languages[lang]['caption_image'])
+    uploaded_files = st.file_uploader(languages[lang]['choose_file'],
                                         type=['png', 'jpg'],
                                         accept_multiple_files=True,
                                         label_visibility='collapsed')
@@ -83,29 +103,29 @@ with img_tab:
     if len(uploaded_files) > 0:
         text = []
 
-        if st.button('🖨️Make question paper', type='primary', key='make button when image'):
+        if st.button(languages[lang]['make_qp'], type='primary', key='make button when image'):
             for uploaded_file in uploaded_files:
                 image = uploaded_file.read()
-                with st.spinner('Image preparation...'):
+                with st.spinner(languages[lang]['image_prep']):
                     text.append(image_scan.main(image))
                     time.sleep(1)
             
             text = ' '.join(text)
-            with st.spinner('Test editing...'):
+            with st.spinner(languages[lang]['test_edit']):
                 result = test_generator.main(text, tasks, answers)
                 time.sleep(1)
-            st.toast('Done!', icon="✅")
+            st.toast(languages[lang]['done'], icon="✅")
         
 with text_tab:
-    st.header('Input text')
-    text = st.text_area('Input text', value='Paste your text here', label_visibility='collapsed')
+    st.header(languages[lang]['input_txt'])
+    text = st.text_area(languages[lang]['input_txt'], value='Paste your text here', label_visibility='collapsed')
 
-    if st.button('🖨️Make question paper', type='primary', key='make button when text'):
+    if st.button(languages[lang]['make_qp'], type='primary', key='make button when text'):
 
-        with st.spinner('Test editing...'):
+        with st.spinner(languages[lang]['test_edit']):
             result = test_generator.main(text, tasks, answers)
             time.sleep(1)
-        st.toast('Done!', icon="✅")
+        st.toast(languages[lang]['done'], icon="✅")
 
-st.header('Result')
+st.header(languages[lang]['result'])
 st.text_area('', value=result, label_visibility='collapsed', height=400)

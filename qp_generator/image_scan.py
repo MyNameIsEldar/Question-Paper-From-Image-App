@@ -11,12 +11,15 @@ def image_preprocessing(image):
 
     image = cv.imdecode(np.frombuffer(image, dtype=np.uint8), cv.IMREAD_COLOR)
 
-    image = page_dewrap.main([image])
-    image = np.array(image[-1]) # [0]
+    dewraped_image = page_dewrap.main([image])
+    if len(dewraped_image) != 0:
+        result_image = np.array(dewraped_image[0])
+    else:
+        result_image = image
 
-    return image
+    return result_image
 
-
+@st.cache_data
 def text_rec(image):
 
     text = pytesseract.image_to_string(image, lang='rus')
