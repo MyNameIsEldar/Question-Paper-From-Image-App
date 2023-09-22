@@ -48,7 +48,7 @@ with st.sidebar:
 
     if qp_type == languages[lang]['open_questions']:
         st.subheader(languages[lang]['n_o_t'])
-        tasks = st.slider(languages[lang]['n_o_t'], 1, 10, 4, label_visibility='collapsed')
+        tasks = st.slider(languages[lang]['n_o_t'], 1, 20, 4, label_visibility='collapsed')
         answers = 0
 
 st.title(languages[lang]['title'])
