@@ -19,7 +19,9 @@ st.set_page_config(
     menu_items={
         'Get Help': 'https://t.me/eldar_tagiev',
         'Report a bug': "https://t.me/eldar_tagiev",
-        'About': """"# Генератор заданий\n
+        'About': """
+        ## Генератор заданий
+
         Это приложение разработано для того, чтобы помочь студентам и пребодавателям в учебном процессе!"""
     }
 )
@@ -34,7 +36,7 @@ with st.sidebar:
 
     # 'True-False', 'Another type'
     qp_type = st.selectbox(languages[lang]['type_of_input'],
-        (languages[lang]['test'], ),
+        (languages[lang]['test'],  languages[lang]['open_questions']),
         label_visibility = 'collapsed'
     )
 
@@ -44,6 +46,10 @@ with st.sidebar:
         st.subheader(languages[lang]['n_o_a'])
         answers = st.slider(languages[lang]['n_o_a'], 2, 6, 3, label_visibility='collapsed')
 
+    if qp_type == languages[lang]['open_questions']:
+        st.subheader(languages[lang]['n_o_t'])
+        tasks = st.slider(languages[lang]['n_o_t'], 1, 10, 4, label_visibility='collapsed')
+        answers = 0
 
 st.title(languages[lang]['title'])
 
@@ -56,7 +62,6 @@ result = languages[lang]['gen_result']
 
 # Input type section
 
-# st.header(languages[lang]['input_header'])  
 pdf_tab, img_tab, text_tab = st.tabs([
     languages[lang]['pdf'],
     languages[lang]['image'],
@@ -88,7 +93,7 @@ with pdf_tab:
                 time.sleep(1)
             
             with st.spinner(languages[lang]['test_edit']):
-                    result = test_generator.main(text, tasks, answers)
+                    result = test_generator.main(qp_type, text, tasks, answers, lang)
                     time.sleep(1)
             st.toast(languages[lang]['done'], icon="✅")
 
@@ -112,7 +117,7 @@ with img_tab:
             
             text = ' '.join(text)
             with st.spinner(languages[lang]['test_edit']):
-                result = test_generator.main(text, tasks, answers)
+                result = test_generator.main(qp_type, text, tasks, answers, lang)
                 time.sleep(1)
             st.toast(languages[lang]['done'], icon="✅")
         
@@ -123,7 +128,7 @@ with text_tab:
     if st.button(languages[lang]['make_qp'], type='primary', key='make button when text'):
 
         with st.spinner(languages[lang]['test_edit']):
-            result = test_generator.main(text, tasks, answers)
+            result = test_generator.main(qp_type, text, tasks, answers, lang)
             time.sleep(1)
         st.toast(languages[lang]['done'], icon="✅")
 

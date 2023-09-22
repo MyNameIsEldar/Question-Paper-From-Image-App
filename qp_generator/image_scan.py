@@ -33,6 +33,7 @@ def main(image):
     pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" 
     
     # for windows usage
+
     # tesseract_path = r'C:\Program Files\Tesseract-OCR'
     # os.environ['PATH'] += os.pathsep + tesseract_path
     # pytesseract.pytesseract.tesseract_cmd = tesseract_path + r'\tesseract.exe'
