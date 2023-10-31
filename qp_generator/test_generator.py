@@ -15,7 +15,7 @@ from langchain.schema.runnable import RunnablePassthrough
 def main(qp_type, text, tasks, answers, lang):
     OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 
-    llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0.5, model_name='gpt-3.5-turbo-16k')
+    llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0.5, model_name='gpt-4')
 
     if qp_type == languages[lang]['test']:
         temp_part = templates.test
