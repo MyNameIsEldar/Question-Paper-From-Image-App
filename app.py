@@ -5,10 +5,14 @@ from qp_generator.languages_data import languages
 import streamlit as st
 import ptvsd
 import time
+import sys
 
 # use when run localy
 # ptvsd.enable_attach(address=('localhost', 5678))
 # ptvsd.wait_for_attach()
+
+__import__('pysqlite3')
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 st.set_page_config(
